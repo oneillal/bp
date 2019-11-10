@@ -34,6 +34,7 @@ namespace BPCalculator
                 //throw new NotImplementedException("not implemented yet");
 
                 // Dummy comment to trigger a build
+                // Dummy comment to trigger a build
 
                 switch (this.Systolic)
                 {
