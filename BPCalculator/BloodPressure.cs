@@ -32,6 +32,7 @@ namespace BPCalculator
             {
                 // implement as part of project
                 //throw new NotImplementedException("not implemented yet");
+
                 if (this.Systolic >= 140)
                     return BPCategory.High;
                 else if (this.Systolic >= 120 && this.Systolic < 140)
