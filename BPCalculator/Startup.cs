@@ -18,6 +18,9 @@ namespace BPCalculator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            // Redirect to bp
+            services.AddMvc().AddRazorPagesOptions(options => { options.Conventions.AddPageRoute("/BloodPressure", ""); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
