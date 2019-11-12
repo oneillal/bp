@@ -22,6 +22,8 @@ steps:
     scannerMode: 'MSBuild'
     projectKey: 'bpSonar'
     projectName: 'bpSonar'
+    extraProperties: |
+      sonar.exclusions=**/wwwroot/**/*
 
 - task: NuGetToolInstaller@1
 
