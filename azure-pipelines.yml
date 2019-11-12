@@ -51,6 +51,7 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - task: SonarCloudAnalyze@1
+  displayName: 'run code analysis on SonarCloud'
 
 - task: SonarCloudPublish@1
   inputs:
