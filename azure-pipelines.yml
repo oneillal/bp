@@ -15,6 +15,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'x00159362'
+    scannerMode: 'MSBuild'
+    projectKey: 'bpSonar'
+    projectName: 'bpSonar'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -39,14 +47,6 @@ steps:
     command: 'test'
     projects: '**/*Test*/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
-
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'x00159362'
-    scannerMode: 'MSBuild'
-    projectKey: 'bpSonar'
-    projectName: 'bpSonar'
 
 - task: SonarCloudAnalyze@1
 
