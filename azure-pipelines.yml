@@ -33,7 +33,15 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: DotNetCoreCLI@2
+  displayName: 'run tests'
+  inputs:
+    command: 'test'
+    projects: '**/*Test*/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
 - task: PublishBuildArtifacts@1
+  displayName: 'publish build artefacts'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
