@@ -40,6 +40,16 @@ steps:
     projects: '**/*Test*/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'x00159362'
+    scannerMode: 'MSBuild'
+    projectKey: 'bpSonar'
+    projectName: 'bpSonar'
+
+- task: SonarCloudAnalyze@1
+
 - task: PublishBuildArtifacts@1
   displayName: 'publish build artefacts'
   inputs:
