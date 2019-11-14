@@ -1,2 +1,1 @@
-# bp
-blood pressure category calculator
+# Blood Pressure Category Calculator
