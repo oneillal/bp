@@ -15,7 +15,15 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'x00159362'
+    scannerMode: 'MSBuild'
+    projectKey: 'bpSonar'
+    projectName: 'bpSonar'
+    extraProperties: |
+      sonar.exclusions=**/wwwroot/**/*
 
 - task: NuGetCommand@2
   inputs:
@@ -32,3 +40,24 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'run tests'
+  inputs:
+    command: 'test'
+    projects: '**/*Test*/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'run code analysis on SonarCloud'
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'publish build artefacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
