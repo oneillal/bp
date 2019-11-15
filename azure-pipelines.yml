@@ -47,15 +47,6 @@ stages:
             platform: '$(buildPlatform)'
             configuration: '$(buildConfiguration)'
 
-# unit test stage
-- stage: unittest
-  displayName: unit test stage
-  jobs:
-  - job: unitTestJob
-    displayName: unit test job
-    pool:
-      vmImage:  $(vmImage)
-    steps:
       - task: VSTest@2
         inputs:
             platform: '$(buildPlatform)'
