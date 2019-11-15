@@ -13,15 +13,16 @@ variables:
   vmImage: 'windows-latest'
 
 stages:
-# prep
-- stage: prep
-  displayName: Build Preparation Stage
+# build
+- stage: build
+  displayName: build stage
   jobs:
-  - job: sonarprep
-    displayName: 'Prepare Sonar Cloud'
+  - job: buildJob
+    displayName: build job
     pool:
       vmImage:  $(vmImage)
     steps:
+    # must be done before build
       - task: SonarCloudPrepare@1
         inputs:
             SonarCloud: 'SonarCloud'
@@ -32,15 +33,6 @@ stages:
             extraProperties: |
               sonar.exclusions=**/wwwroot/**/*
 
-# build
-- stage: stage2
-  displayName: build stage
-  jobs:
-  - job: build
-    displayName: build job
-    pool:
-      vmImage:  $(vmImage)
-    steps:
       - task: NuGetToolInstaller@1
         displayName: 'run unit tests'
 
@@ -55,6 +47,15 @@ stages:
             platform: '$(buildPlatform)'
             configuration: '$(buildConfiguration)'
 
+# unit test stage
+- stage: unittest
+  displayName: unit test stage
+  jobs:
+  - job: unitTestJob
+    displayName: unit test job
+    pool:
+      vmImage:  $(vmImage)
+    steps:
       - task: VSTest@2
         inputs:
             platform: '$(buildPlatform)'
