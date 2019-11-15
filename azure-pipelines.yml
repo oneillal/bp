@@ -14,52 +14,71 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'SonarCloud'
-    organization: 'x00159362'
-    scannerMode: 'MSBuild'
-    projectKey: 'bpSonar'
-    projectName: 'bpSonar'
-    extraProperties: |
-      sonar.exclusions=**/wwwroot/**/*
+stages:
+# prep
+- stage: prep
+  displayName: Build Preparation Stage
+  jobs:
+  - job: sonarprep
+    displayName: run unit tests
+    pool:
+      vmImage:  $(vmImage)
+    steps:
+      - task: SonarCloudPrepare@1
+        inputs:
+            SonarCloud: 'SonarCloud'
+            organization: 'x00159362'
+            scannerMode: 'MSBuild'
+            projectKey: 'bpSonar'
+            projectName: 'bpSonar'
+            extraProperties: |
+              sonar.exclusions=**/wwwroot/**/*
 
-- task: NuGetToolInstaller@1
+# build
+- stage: stage2
+  displayName: build stage
+  jobs:
+  - job: build
+    displayName: build job
+    pool:
+      vmImage:  $(vmImage)
+    steps:
+      - task: NuGetToolInstaller@1
+        displayName: 'run unit tests'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+      - task: NuGetCommand@2
+        inputs:
+            restoreSolution: '$(solution)'        
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+      - task: VSBuild@1
+        inputs:
+            solution: '$(solution)'
+            msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+            platform: '$(buildPlatform)'
+            configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+      - task: VSTest@2
+        inputs:
+            platform: '$(buildPlatform)'
+            configuration: '$(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'run tests'
-  inputs:
-    command: 'test'
-    projects: '**/*Test*/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: 'run tests'
+        inputs:
+            command: 'test'
+            projects: '**/*Test*/*.csproj'
+            arguments: '--configuration $(buildConfiguration)'
 
-- task: SonarCloudAnalyze@1
-  displayName: 'run code analysis on SonarCloud'
+      - task: SonarCloudAnalyze@1
+        displayName: 'run code analysis on SonarCloud'
 
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
+      - task: SonarCloudPublish@1
+        inputs:
+            pollingTimeoutSec: '300'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'publish build artefacts'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+      - task: PublishBuildArtifacts@1
+        displayName: 'publish build artefacts'
+        inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop'
+            publishLocation: 'Container'
