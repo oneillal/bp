@@ -20,7 +20,7 @@ stages:
   displayName: Build Preparation Stage
   jobs:
   - job: sonarprep
-    displayName: run unit tests
+    displayName: 'Prepare Sonar Cloud'
     pool:
       vmImage:  $(vmImage)
     steps:
