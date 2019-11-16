@@ -14,8 +14,24 @@ variables:
 
 stages:
 # build
+- stage: lint
+  displayName: Lint YAML
+  jobs:
+  - job: filevalidator
+    pool:
+      vmImage:  $(vmImage)
+    steps:
+      - task: Files-Validator@1
+        inputs:
+          rootDir: '$(Build.SourcesDirectory)'
+          validateXML: false
+          validateJSON: false
+          validateYAML: true
+          validatePS: false
+
 - stage: build
   displayName: build stage
+  dependsOn: lint
   jobs:
   - job: buildJob
     displayName: build job
