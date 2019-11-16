@@ -50,7 +50,6 @@ stages:
             sonar.exclusions=**/wwwroot/**/*
 
       - task: NuGetToolInstaller@1
-        displayName: 'run unit tests'
 
       - task: NuGetCommand@2
         inputs:
