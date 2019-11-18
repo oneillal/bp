@@ -92,3 +92,30 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
           publishLocation: 'Container'
+
+- stage: deploy
+  displayName: deploy to Azure
+  jobs:
+  - deployment: deployAZ
+    displayName: deploy to Azure
+    pool:
+      vmImage:  'vs2017-win2016'
+    environment: 'bp'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'drop'
+              downloadPath: '$(build.artifactstagingdirectory)'
+              
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure'
+              appType: 'webApp'
+              WebAppName: 'bponeillal'
+              packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'          
