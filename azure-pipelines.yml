@@ -70,7 +70,8 @@ stages:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          patPathtoPublish: '$(build.artifactstagingdirectory)'
+          path: '$(build.artifactstagingdirectory)'
+          artifact: drop
 
 #      - task: VSBuild@1
 #        inputs:
@@ -124,4 +125,4 @@ stages:
               azureSubscription: 'Azure'
               appType: 'webApp'
               WebAppName: 'bponeillal'
-              Package: $(System.WorkFolder)/**/*.zip
+              package: $(System.WorkFolder)/**/*.zip
