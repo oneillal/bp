@@ -113,7 +113,7 @@ stages:
   - deployment: deployAZ
     displayName: deploy to Azure
     pool:
-      vmImage:  'vs2017-win2016'
+      vmImage: $(vmImage)
     environment: 'bp'
     strategy:
       runOnce:
