@@ -59,6 +59,19 @@ stages:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'build'
+          arguments: '--configuration $(buildConfiguration)'
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: publish
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+          modifyOutputPath: true
+          zipAfterPublish: true
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          path: $(Build.ArtifactStagingDirectory)
+          artifact: drop
 
 #      - task: VSBuild@1
 #        inputs:
@@ -98,7 +111,7 @@ stages:
 #          publishLocation: 'Container'          
 
 - stage: deploy
-  displayName: deploy to Azure
+  displayName: "Deploy to Azure"
   dependsOn: build
   jobs:
   - deployment: deployAZ
@@ -110,15 +123,10 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'drop'
-              targetPath: $(Build.ArtifactStagingDirectory)
-
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
               azureSubscription: 'Azure'
               appType: 'webApp'
               WebAppName: 'bponeillal'
-              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+              pPackage: $(System.WorkFolder)/**/*.zip
