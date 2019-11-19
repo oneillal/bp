@@ -86,42 +86,17 @@ stages:
         inputs:
           pollingTimeoutSec: '300'
 
-      - task: PublishBuildArtifacts@1
-        displayName: 'publish build artefacts'
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'drop'
-          publishLocation: 'Container'
+#      - task: PublishBuildArtifacts@1
+#        displayName: 'publish build artefacts'
+#        inputs:
+#          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#          ArtifactName: 'drop'
+#          publishLocation: 'Container'
 
-- stage: stage
-  displayName: stage assets
-  dependsOn: build
-  jobs:
-  - job: stage
-    displayName: stage assets
-    pool:
-      vmImage:  $(vmImage)
-    steps:
-      - task: DotNetCoreCLI@2
-        displayName: 'dotnet publish web project'
+      - task: PublishPipelineArtifact@1
         inputs:
-          command: publish
-          publishWebProjects: true
-          zipAfterPublish: true
-          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'  
-
-      - task: CopyFiles@2
-        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          Contents: |
-            SeleniumTest/bin/$(buildConfiguration)/**/publish/*
-            **/*runsettings
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
-   
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish PipelineArtifact: drop'
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          targetPath: '$(Pipeline.Workspace)' 
+          artifactName: 'drop'          
 
 - stage: deploy
   displayName: deploy to Azure
@@ -136,12 +111,10 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: DownloadBuildArtifacts@0
+          - task: DownloadPipelineArtifact@2
             inputs:
-              buildType: 'current'
-              downloadType: 'single'
               artifactName: 'drop'
-              downloadPath: '$(Build.ArtifactStagingDirectory)'
+              targetPath: $(Build.ArtifactStagingDirectory)
               
           - task: AzureRmWebAppDeployment@4
             inputs:
