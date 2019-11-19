@@ -93,8 +93,39 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
+- stage: stage
+  displayName: stage assets
+  dependsOn: build
+  jobs:
+  - job: stage
+    displayName: stage assets
+    pool:
+      vmImage:  $(vmImage)
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'dotnet publish web project'
+        inputs:
+          command: publish
+          publishWebProjects: true
+          zipAfterPublish: true
+          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'  
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          Contents: |
+            SeleniumTest/bin/$(buildConfiguration)/**/publish/*
+            **/*runsettings
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+   
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish PipelineArtifact: drop'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+
 - stage: deploy
   displayName: deploy to Azure
+  dependsOn: stage
   jobs:
   - deployment: deployAZ
     displayName: deploy to Azure
@@ -118,4 +149,4 @@ stages:
               azureSubscription: 'Azure'
               appType: 'webApp'
               WebAppName: 'bponeillal'
-              packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'          
+              packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
