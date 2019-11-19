@@ -70,8 +70,7 @@ stages:
 
       - task: PublishBuildArtifacts@1
         inputs:
-          path: $(Build.ArtifactStagingDirectory)
-          artifact: drop
+          patPathtoPublish: '$(build.artifactstagingdirectory)'
 
 #      - task: VSBuild@1
 #        inputs:
@@ -98,10 +97,6 @@ stages:
       - task: SonarCloudPublish@1
         inputs:
           pollingTimeoutSec: '300'
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: '$(Pipeline.Workspace)'
-          artifactName: 'sonar'
 
 #      - task: PublishBuildArtifacts@1
 #        displayName: 'publish build artefacts'
@@ -129,4 +124,4 @@ stages:
               azureSubscription: 'Azure'
               appType: 'webApp'
               WebAppName: 'bponeillal'
-              pPackage: $(System.WorkFolder)/**/*.zip
+              Package: $(build.artifactstagingdirectory)/**/*.zip'
