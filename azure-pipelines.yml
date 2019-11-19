@@ -99,7 +99,7 @@ stages:
 
 - stage: deploy
   displayName: deploy to Azure
-  dependsOn: stage
+  dependsOn: build
   jobs:
   - deployment: deployAZ
     displayName: deploy to Azure
