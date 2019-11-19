@@ -30,7 +30,7 @@ stages:
           validatePS: false
 
 - stage: build
-  displayName: build stage
+  displayName: Build Stage
   dependsOn: lint
   jobs:
   - job: buildJob
@@ -86,14 +86,14 @@ stages:
 #          configuration: '$(buildConfiguration)'
 
       - task: DotNetCoreCLI@2
-        displayName: 'run tests'
+        displayName: 'Run Tests'
         inputs:
           command: 'test'
           projects: '**/*Test*/*.csproj'
           arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
       - task: SonarCloudAnalyze@1
-        displayName: 'run code analysis on SonarCloud'
+        displayName: 'Run code analysis on SonarCloud'
 
       - task: SonarCloudPublish@1
         inputs:
@@ -101,7 +101,7 @@ stages:
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Pipeline.Workspace)'
-          artifactName: 'drop'
+          artifactName: 'sonar'
 
 #      - task: PublishBuildArtifacts@1
 #        displayName: 'publish build artefacts'
