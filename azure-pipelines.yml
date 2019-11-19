@@ -124,4 +124,4 @@ stages:
               azureSubscription: 'Azure'
               appType: 'webApp'
               WebAppName: 'bponeillal'
-              Package: $(build.artifactstagingdirectory)/*.zip'
+              Package: $(System.WorkFolder)/**/*.zip
