@@ -51,9 +51,9 @@ stages:
 
       - task: NuGetToolInstaller@1
 
-      - task: NuGetCommand@2
-        inputs:
-          restoreSolution: '$(solution)'        
+#      - task: NuGetCommand@2
+#        inputs:
+#          restoreSolution: '$(solution)'        
 
 # Switch to DotNetCore for build and test
       - task: DotNetCoreCLI@2
@@ -72,6 +72,11 @@ stages:
         inputs:
           path: '$(build.artifactstagingdirectory)'
           artifact: drop
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Pipeline.Workspace)' 
+          artifactName: drop2
 
 #      - task: VSBuild@1
 #        inputs:
