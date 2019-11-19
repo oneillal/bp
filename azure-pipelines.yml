@@ -68,15 +68,15 @@ stages:
           modifyOutputPath: true
           zipAfterPublish: true
 
-      - task: PublishBuildArtifacts@1
-        inputs:
-          path: '$(build.artifactstagingdirectory)'
-          artifact: drop
+ #     - task: PublishBuildArtifacts@1
+ #       inputs:
+ #         path: '$(build.artifactstagingdirectory)'
+ #         artifact: drop
 
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(Pipeline.Workspace)' 
-          artifactName: drop2
+          artifactName: drop
 
 #      - task: VSBuild@1
 #        inputs:
