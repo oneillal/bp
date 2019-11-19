@@ -141,7 +141,7 @@ stages:
               buildType: 'current'
               downloadType: 'single'
               artifactName: 'drop'
-              downloadPath: '$(build.artifactstagingdirectory)'
+              downloadPath: '$(Build.ArtifactStagingDirectory)'
               
           - task: AzureRmWebAppDeployment@4
             inputs:
@@ -149,4 +149,4 @@ stages:
               azureSubscription: 'Azure'
               appType: 'webApp'
               WebAppName: 'bponeillal'
-              packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
+              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
