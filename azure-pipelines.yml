@@ -85,18 +85,17 @@ stages:
       - task: SonarCloudPublish@1
         inputs:
           pollingTimeoutSec: '300'
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(Pipeline.Workspace)'
+          artifactName: 'drop'
 
 #      - task: PublishBuildArtifacts@1
 #        displayName: 'publish build artefacts'
 #        inputs:
 #          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
 #          ArtifactName: 'drop'
-#          publishLocation: 'Container'
-
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: '$(Pipeline.Workspace)' 
-          artifactName: 'drop'          
+#          publishLocation: 'Container'          
 
 - stage: deploy
   displayName: deploy to Azure
@@ -115,7 +114,7 @@ stages:
             inputs:
               artifactName: 'drop'
               targetPath: $(Build.ArtifactStagingDirectory)
-              
+
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
