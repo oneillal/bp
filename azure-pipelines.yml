@@ -14,8 +14,8 @@ variables:
 
 stages:
 # build
-- stage: lint
-  displayName: Lint YAML
+- stage: validate
+  displayName: Validate YAML
   jobs:
   - job: filevalidator
     pool:
@@ -31,7 +31,7 @@ stages:
 
 - stage: build
   displayName: Build Stage
-  dependsOn: lint
+  dependsOn: validate
   jobs:
   - job: buildJob
     displayName: build job
