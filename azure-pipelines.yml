@@ -97,6 +97,15 @@ stages:
           projects: '**/*Test*/*.csproj'
           arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
+      - task: dependency-check-build-task@5
+        inputs:
+          projectName: 'bpOwaspDepCheck'
+          scanPath: '$(Build.SourcesDirectory)'
+          excludePath: '**/wwwroot/**/*'
+          format: 'HTML'
+          failOnCVSS: '7'
+          enableVerbose: true
+
       - task: SonarCloudAnalyze@1
         displayName: 'Run code analysis on SonarCloud'
 
