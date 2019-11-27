@@ -112,6 +112,7 @@ stages:
           testResultsFormat: 'JUnit'
           testResultsFiles: 'dependency-check\dependency-check-junit.xml'
           searchFolder: '$(Common.TestResultsDirectory)'
+          testRunTitle: 'OWASP Dependency Tests'
 
       - task: SonarCloudAnalyze@1
         displayName: 'Run code analysis on SonarCloud'
