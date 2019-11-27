@@ -108,6 +108,11 @@ stages:
           #failOnCVSS: '7'
           enableVerbose: true
 
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: 'dependency-check\dependency-check-report.html'
+
       - task: SonarCloudAnalyze@1
         displayName: 'Run code analysis on SonarCloud'
 
