@@ -112,6 +112,7 @@ stages:
         inputs:
           testResultsFormat: 'JUnit'
           testResultsFiles: 'dependency-check\dependency-check-report.html'
+          searchFolder: '$(Common.TestResultsDirectory)'
 
       - task: SonarCloudAnalyze@1
         displayName: 'Run code analysis on SonarCloud'
