@@ -57,11 +57,13 @@ stages:
 
 # Switch to DotNetCore for build and test
       - task: DotNetCoreCLI@2
+        displayName: 'Build task'
         inputs:
           command: 'build'
           arguments: '--configuration $(buildConfiguration)'
 
       - task: DotNetCoreCLI@2
+        displayName: 'Publish build artefacts'
         inputs:
           command: publish
           arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
