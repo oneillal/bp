@@ -106,7 +106,6 @@ stages:
           excludePath: '**/wwwroot/**/*'
           format: 'ALL'
           #failOnCVSS: '7'
-          enableVerbose: true
 
       - task: PublishTestResults@2
         inputs:
