@@ -102,8 +102,8 @@ stages:
           projectName: 'bpOwaspDepCheck'
           scanPath: '$(Build.SourcesDirectory)'
           excludePath: '**/wwwroot/**/*'
-          format: 'HTML'
-          failOnCVSS: '7'
+          format: 'ALL'
+          #failOnCVSS: '7'
           enableVerbose: true
 
       - task: SonarCloudAnalyze@1
