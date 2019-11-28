@@ -111,7 +111,7 @@ stages:
 
       - task: reportgenerator@4
         inputs:
-          reports: '$(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml'
+          reports: '$(Build.SourcesDirectory)/*Test*/coverage.cobertura.xml'
           targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
           reporttypes: 'HtmlInline_AzurePipelines;Cobertura;Badges'
           assemblyfilters: '-xunit*'
