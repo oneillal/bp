@@ -180,5 +180,5 @@ stages:
             inputs:
               command: test
               arguments: '--configuration $(BuildConfiguration)'
-              projects: '**/*UITest*/*.csproj'
+              projects: '**/*Test*/*.csproj'
               nobuild: true              
