@@ -102,11 +102,11 @@ stages:
 #
       # Run all tests with "/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura" to generate the code coverage file
       - task: DotNetCoreCLI@2
-        displayName: dotnet test
+        displayName: 'Unit Tests'
         inputs:
           command: test
           arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-          projects: '**/*Test*/*.csproj'
+          projects: '**/*UnitTest*/*.csproj'
           nobuild: true
 
       - task: reportgenerator@4
@@ -175,3 +175,10 @@ stages:
               appType: 'webApp'
               WebAppName: 'bponeillal'
               package: $(System.WorkFolder)/**/*.zip
+          - task: DotNetCoreCLI@2
+            displayName: "UI Tests"
+            inputs:
+              command: test
+              arguments: '--configuration $(BuildConfiguration)'
+              projects: '**/*UITest*/*.csproj'
+              nobuild: true              
