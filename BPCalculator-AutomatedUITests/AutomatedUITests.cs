@@ -12,9 +12,7 @@ namespace BPCalculator.UITests.BP
     {
         public void bpUITest(string systolic, string diastolic, string category)
         {
-            String chromeWebDriver = Environment.GetEnvironmentVariable("ChromeWebDriver");
-
-            using (IWebDriver driver = new ChromeDriver(chromeWebDriver))
+            using (IWebDriver driver = new ChromeDriver("."))
             {
                 // Get localhost testing working
                 driver.Navigate().GoToUrl("http://localhost:40328");
