@@ -180,5 +180,5 @@ stages:
             inputs:
               command: test
               arguments: '--configuration $(BuildConfiguration)'
-              projects: '**/*Test*/*.csproj'
+              projects: $(System.WorkFolder)/**/*AutomatedUITests/*.csproj
               nobuild: true              
