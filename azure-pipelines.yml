@@ -108,6 +108,7 @@ stages:
           arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
           projects: '**/*UnitTest*/*.csproj'
           nobuild: true
+          testRunTitle: 'Unit Tests'
 
       - task: reportgenerator@4
         inputs:
@@ -181,4 +182,5 @@ stages:
               command: test
               arguments: '--configuration $(BuildConfiguration)'
               projects: $(System.WorkFolder)/**/*AutomatedUITests/*.csproj
-              nobuild: true              
+              nobuild: true
+              testRunTitle: 'UI Tests'
