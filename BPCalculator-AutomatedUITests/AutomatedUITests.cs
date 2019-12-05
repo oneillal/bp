@@ -15,7 +15,7 @@ namespace BPCalculator.UITests.BP
             using (IWebDriver driver = new ChromeDriver("."))
             {
                 // Get localhost testing working
-                driver.Navigate().GoToUrl("http://localhost:40328");
+                driver.Navigate().GoToUrl("https://bponeillal.azurewebsites.net/BloodPressure");
 
                 driver.FindElement(By.Id("BP_Systolic")).Clear();
                 driver.FindElement(By.Id("BP_Systolic")).SendKeys(systolic);
