@@ -156,15 +156,15 @@ stages:
 #          ArtifactName: 'drop'
 #          publishLocation: 'Container'          
 
-- stage: deploy
-  displayName: "Deploy to Azure"
+- stage: qa
+  displayName: "Deploy to QA"
   dependsOn: build
   jobs:
-  - deployment: deployAZ
-    displayName: deploy to Azure
+  - deployment: qa
+    displayName: deploy to qa environment
     pool:
       vmImage: $(vmImage)
-    environment: 'bp'
+    environment: 'qa'
     strategy:
       runOnce:
         deploy:
@@ -174,7 +174,7 @@ stages:
               ConnectionType: 'AzureRM'
               azureSubscription: 'Azure'
               appType: 'webApp'
-              WebAppName: 'bponeillal'
+              WebAppName: 'bponeillalqa'
               package: $(System.WorkFolder)/**/*.zip
           - task: DotNetCoreCLI@2
             displayName: "UI Tests"
