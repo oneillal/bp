@@ -189,6 +189,6 @@ stages:
             inputs:
               command: test
               arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-              projects: '**/*AcceptanceTest*/*.csproj'
+              projects: $(System.WorkFolder)/**/*AcceptanceTest*/*.csproj
               nobuild: true
               testRunTitle: 'User Acceptance Tests'              
