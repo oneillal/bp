@@ -30,10 +30,3 @@ Scenario: Calculate high blood pressure
 	And I have entered 144 into systolic field
 	And I have entered 99 into the diastolic field
 	Then the result should be high on the screen
-
-@bpnegative
-Scenario: Neative test
-	Given I run the application
-	And I have entered 144 into systolic field
-	And I have entered 99 into the diastolic field
-	Then the result should be normal on the screen
