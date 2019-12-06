@@ -106,7 +106,7 @@ stages:
         inputs:
           command: test
           arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-          projects: '**/*UnitTest*/*.csproj, **/*AcceptanceTest*/*.csproj'
+          projects: '**/*UnitTest*/*.csproj'
           nobuild: true
           testRunTitle: 'Unit Tests'
 
@@ -184,3 +184,11 @@ stages:
               projects: $(System.WorkFolder)/**/*AutomatedUITests/*.csproj
               nobuild: true
               testRunTitle: 'UI Tests'
+          - task: DotNetCoreCLI@2
+            displayName: 'User Acceptance Tests'
+            inputs:
+              command: test
+              arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+              projects: '**/*AcceptanceTest*/*.csproj'
+              nobuild: true
+              testRunTitle: 'User Acceptance Tests'              
