@@ -161,7 +161,7 @@ stages:
   dependsOn: build
   jobs:
   - deployment: qa
-    displayName: deploy to qa environment
+    displayName: Deploy to QA environment
     pool:
       vmImage: $(vmImage)
     environment: 'qa'
