@@ -186,10 +186,11 @@ stages:
               testRunTitle: 'UI Tests'              
 
 - stage: staging
+  displayName: "Deploy to Staging"
   dependsOn: qa
   jobs:
   - deployment: staging
-    displayName: Deploy to Staging environment
+    displayName: "Deploy to Staging environment"
     pool:
       vmImage: $(vmImage)
     environment: 'staging'
