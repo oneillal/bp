@@ -183,7 +183,27 @@ stages:
               arguments: '--configuration $(BuildConfiguration)'
               projects: $(System.WorkFolder)/**/*AutomatedUITests/*.csproj
               nobuild: true
-              testRunTitle: 'UI Tests'
+              testRunTitle: 'UI Tests'              
+
+- stage: staging
+  dependsOn: qa
+  jobs:
+  - deployment: staging
+    displayName: Deploy to Staging environment
+    pool:
+      vmImage: $(vmImage)
+    environment: 'staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure'
+              appType: 'webApp'
+              WebAppName: 'bponeillalstaging'
+              package: $(System.WorkFolder)/**/*.zip
           - task: DotNetCoreCLI@2
             displayName: 'User Acceptance Tests'
             inputs:
