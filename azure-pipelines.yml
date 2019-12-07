@@ -18,6 +18,7 @@ stages:
   displayName: Validate YAML
   jobs:
   - job: filevalidator
+    displayName: File Validator
     pool:
       vmImage:  $(vmImage)
     steps:
@@ -30,11 +31,11 @@ stages:
           validatePS: false
 
 - stage: build
-  displayName: Build Stage
+  displayName: "Build Stage"
   dependsOn: validate
   jobs:
   - job: buildJob
-    displayName: build job
+    displayName: "CI Build Job"
     pool:
       vmImage:  $(vmImage)
     steps:
@@ -183,7 +184,7 @@ stages:
               arguments: '--configuration $(BuildConfiguration)'
               projects: $(System.WorkFolder)/**/*AutomatedUITests/*.csproj
               nobuild: true
-              testRunTitle: 'UI Tests'              
+              testRunTitle: 'UI Tests'
 
 - stage: staging
   displayName: "Deploy to Staging"
@@ -212,4 +213,25 @@ stages:
               arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
               projects: $(System.WorkFolder)/**/*AcceptanceTest*/*.csproj
               nobuild: true
-              testRunTitle: 'User Acceptance Tests'              
+              testRunTitle: 'User Acceptance Tests'
+
+- stage: prod
+  displayName: "Deploy to Prod"
+  dependsOn: prod
+  jobs:
+  - deployment: prod
+    displayName: "Deploy to Production environment"
+    pool:
+      vmImage: $(vmImage)
+    environment: 'prod'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure'
+              appType: 'webApp'
+              WebAppName: 'bponeillal'
+              package: $(System.WorkFolder)/**/*.zip
