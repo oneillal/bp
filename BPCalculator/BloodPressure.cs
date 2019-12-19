@@ -77,8 +77,7 @@ namespace BPCalculator
                         return BPCategory.PreHigh;
                     else
                         return BPCategory.Normal;
-                else
-                    if (this.Diastolic < 60)
+                else if (this.Diastolic < 60)
                     return BPCategory.Low;
                 else if (this.Diastolic >= 90)
                     return BPCategory.High;

@@ -47,7 +47,8 @@ namespace UnitTests
             };
             Assert.AreEqual(BPCategory.High, bp.Category);
         }
-        public void bpCategoryHighTest2()
+        [TestMethod]
+        public void bpCategoryHighSecondTest()
         {
             BloodPressure bp = new BloodPressure
             {
