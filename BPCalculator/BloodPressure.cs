@@ -63,28 +63,46 @@ namespace BPCalculator
                     //        return BPCategory.Normal;
                 }
 
-                if (this.Systolic >= 140)
-                    return BPCategory.High;
-                else if (this.Systolic >= 120 && this.Systolic < 140)
-                    if (this.Diastolic >= 90)
-                        return BPCategory.High;
-                    else
-                        return BPCategory.PreHigh;
-                else if (this.Systolic >= 90 && this.Systolic < 120)
-                    if (this.Diastolic >= 90)
-                        return BPCategory.High;
-                    else if (this.Diastolic >= 80 && this.Diastolic < 90)
-                        return BPCategory.PreHigh;
-                    else
-                        return BPCategory.Normal;
-                else if (this.Diastolic < 60)
+                //if (this.Systolic >= 140)
+                //    return BPCategory.High;
+                //else if (this.Systolic >= 120 && this.Systolic < 140)
+                //    if (this.Diastolic >= 90)
+                //        return BPCategory.High;
+                //    else
+                //        return BPCategory.PreHigh;
+                //else if (this.Systolic >= 90 && this.Systolic < 120)
+                //    if (this.Diastolic >= 90)
+                //        return BPCategory.High;
+                //    else if (this.Diastolic >= 80 && this.Diastolic < 90)
+                //        return BPCategory.PreHigh;
+                //    else
+                //        return BPCategory.Normal;
+                //else if (this.Diastolic < 60)
+                //    return BPCategory.Low;
+                //else if (this.Diastolic >= 90)
+                //    return BPCategory.High;
+                //else if (this.Diastolic >= 80 && this.Diastolic < 90)
+                //    return BPCategory.PreHigh;
+                //else
+                //    return BPCategory.Normal;
+
+                // Over complicated this logic and screwed up my code coverage so simplifying
+                if (this.Systolic < 90 && this.Diastolic < 60)
+                {
                     return BPCategory.Low;
-                else if (this.Diastolic >= 90)
-                    return BPCategory.High;
-                else if (this.Diastolic >= 80 && this.Diastolic < 90)
-                    return BPCategory.PreHigh;
-                else
+                }
+                if (this.Systolic < 120 && this.Diastolic < 80)
+                {
                     return BPCategory.Normal;
+                }
+                else if (this.Systolic < 140 && this.Diastolic < 90)
+                {
+                    return BPCategory.PreHigh;
+                }
+                else
+                {
+                    return BPCategory.High;
+                }
             }
         }
     }

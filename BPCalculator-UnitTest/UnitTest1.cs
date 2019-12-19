@@ -28,6 +28,17 @@ namespace UnitTests
 
         }
         [TestMethod]
+        public void bpCategoryPreHighSecondTest()
+        {
+            BloodPressure bp = new BloodPressure
+            {
+                Systolic = 100,
+                Diastolic = 85
+            };
+            Assert.AreEqual(BPCategory.PreHigh, bp.Category);
+
+        }
+        [TestMethod]
         public void bpCategoryPreHighTest()
         {
             BloodPressure bp = new BloodPressure
@@ -57,6 +68,17 @@ namespace UnitTests
             };
             Assert.AreEqual(BPCategory.High, bp.Category);
         }
+        [TestMethod]
+        public void bpCategoryHighThirdTest()
+        {
+            BloodPressure bp = new BloodPressure
+            {
+                Systolic = 117,
+                Diastolic = 91
+            };
+            Assert.AreEqual(BPCategory.High, bp.Category);
+        }
+
         //[TestMethod]
         //public void bpCategoryNegativeTest()
         //{
